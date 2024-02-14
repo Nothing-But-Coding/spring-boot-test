@@ -1,28 +1,24 @@
-name: CI/CD Pipeline
+name: Java Spring Boot CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
+    
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK 17
-      uses: actions/setup-java@v2
-      with:
-        java-version: '17'
-        distribution: 'adopt'
-    - name: Build with Maven
-      run: mvn clean install
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Deploy to Production
-      run: echo "Deploying to production"
-      # 在这里添加你的部署脚本
+    # 登录到Docker Hub
+    - name: Login to DockerHub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      
+    # 构建Docker镜像（构建过程包括编译和打包Java应用）
+    - name: Build Docker image
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/spring-boot-test:${{ github.sha }} .
+      
+    # 推送镜像到Docker Hub
+    - name: Push Docker image to DockerHub
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/your-app:${{ github.sha }}
