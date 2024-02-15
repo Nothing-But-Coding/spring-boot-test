@@ -18,11 +18,11 @@ jobs:
     # 构建Docker镜像（构建过程包括编译和打包Java应用）
     - name: Build Docker image
       run: |
-      docker build -t ${{ secrets.DOCKER_USERNAME }}/spring-boot-test:${{ github.sha }} \
-      -t ${{ secrets.DOCKER_USERNAME }}/spring-boot-test:latest .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/spring-boot-test:${{ github.sha }} \
+                    -t ${{ secrets.DOCKER_USERNAME }}/spring-boot-test:latest .
       
     # 推送镜像到Docker Hub
     - name: Push Docker image to DockerHub
       run: | 
-      docker push ${{ secrets.DOCKER_USERNAME }}/spring-boot-test:${{ github.sha }}
-      docker push ${{ secrets.DOCKER_USERNAME }}/spring-boot-test:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/spring-boot-test:${{ github.sha }}
+        docker push ${{ secrets.DOCKER_USERNAME }}/spring-boot-test:latest
