@@ -1,0 +1,25 @@
+# src/main/resources/db/changelog/changes/v1.0_init_schema.yaml
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: yguan
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true  # 设置为自增
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(255)
+              - column:
+                  name: email
+                  type: varchar(255) # 新增字段
+              - column:
+                  name: password
+                  type: varchar(255)
